@@ -1,0 +1,42 @@
+git clone https://github.com/pjreddie/darknet
+
+Change file Makefile:
+GPU=1
+CUDNN=1
+
+ARCH= -gencode arch=compute_52,code=compute_52
+with cuda 11.0
+
+NVCC=/usr/local/cuda/bin/nvcc
+
+Gán label image:
+git clone https://github.com/tzutalin/labelImg
+pip install pyqt5 lxml
+make qt5py3(Mac or Linux)
+pyrcc5 -o resources.py resources.qrc
+
+thay đổi labelImg/data/prdefined_classes.txt: classes label
+chay file labelImg.py
+
+tao file train.txt val.txt yolo.data yolo.names
+
+train.txt: chua ten anh => (ls > filenames.txt | printf '%s\n' "$PWD"/* >filenames.txt)
+
+val.txt: lay 20% train.txt
+
+yolo.data:
+classses = 1 # Số lượng class, ở đây chỉ có 1 đối tượng lên classes=1
+train = train.txt # trỏ đến file train của ta thôi
+valid = val.txt # trỏ đến file val của ta
+names = yolo.names # trỏ đến file names làm bên trên
+backup = backup
+
+thay doi file yolov3.cfg:
+Dòng 7, nếu máy bạn nhiều RAM/GPU VRAM thì để nguyên, còn không thì sửa số 8 thành 16 nhé.
+Dòng 603, sửa lại thành filters=18 (số 18 tính bằng các lấy số (class + 5)*3 nhé. Ví dụ sau bạn train có 2 class thì sẽ là (2+5)*3 = 21.
+Dòng 610, sửa lại thành classses=1 (hoặc bằng số nào đó khác nếu bạn train nhiều hơn 1 class)
+Dòng 689 và 776, sửa giống dòng 603
+Dòng 696 và 783, sửa giống dòng 610
+
+download file darknet53.conv.74
+ https://pjreddie.com/media/files/darknet53.conv.74 
