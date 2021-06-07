@@ -1,2 +1,4 @@
+math
 table
-texts
+text
+image
