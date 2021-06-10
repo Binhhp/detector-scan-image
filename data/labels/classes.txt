@@ -1,4 +1,0 @@
-math
-table
-text
-image
